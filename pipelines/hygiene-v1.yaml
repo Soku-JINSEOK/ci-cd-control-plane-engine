@@ -1,0 +1,22 @@
+schema_version: 1
+template: hygiene-v1
+kind: hygiene
+project_types:
+  - convention-hygiene
+description: Validate generic repository documentation and contract hygiene.
+validation:
+  commands:
+    - name: required source check
+      run: test -f README.md
+      working_directory: .
+artifacts: []
+delivery:
+  provider: none
+  kind: repository-hygiene
+  trigger: none
+  target_environment: ci
+  enabled: false
+  approval_required: false
+environments:
+  - local
+  - ci

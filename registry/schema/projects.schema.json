@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/public-engine/schema/projects.schema.json",
+  "title": "Public engine project registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "projects"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "projects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "repository", "visibility", "project_type", "pipeline"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+          "repository": {"type": "string", "pattern": "^[^/\\s]+/[^/\\s]+$"},
+          "visibility": {"enum": ["public", "private"]},
+          "project_type": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+          "pipeline": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "template"],
+            "properties": {
+              "kind": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+              "template": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*-v[0-9]+$"}
+            }
+          }
+        }
+      }
+    }
+  }
+}
