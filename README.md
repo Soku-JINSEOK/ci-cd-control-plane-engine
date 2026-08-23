@@ -11,3 +11,4 @@ source tree before any publication approval.
 
 <!-- Hosted Tokyo PR validation is bound via declarative control-plane trigger. -->
 <!-- Trigger Tokyo hosted validation pilot run -->
+<!-- Trigger verified Tokyo pipeline execution -->
