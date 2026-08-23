@@ -8,3 +8,5 @@ separately reviewed compatibility contract.
 The candidate was produced from an explicit export allowlist and a newly
 initialized Git history. Run the publication checker against an extracted
 source tree before any publication approval.
+
+<!-- CI integration verification pilot -->
