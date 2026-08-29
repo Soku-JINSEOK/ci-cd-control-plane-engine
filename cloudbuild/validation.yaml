@@ -1,0 +1,30 @@
+steps:
+  - id: verify-exact-source
+    name: python:3.12-bookworm@sha256:058149828b8d4a90425f5ae6d255ee1fcfe73bf7d749635d824f4e033460d83c
+    entrypoint: python3
+    args:
+      - -c
+      - |
+        import os, re, subprocess, sys
+        expected = os.environ["COMMIT_SHA"]
+        actual = subprocess.run(["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
+        if not re.fullmatch(r"[0-9a-f]{40}", expected) or actual != expected:
+            sys.exit("exact source SHA mismatch")
+    env:
+      - COMMIT_SHA=$COMMIT_SHA
+  - id: install-validation-dependency
+    name: python:3.12-bookworm@sha256:058149828b8d4a90425f5ae6d255ee1fcfe73bf7d749635d824f4e033460d83c
+    entrypoint: python3
+    args: ["-m", "pip", "install", "--no-cache-dir", "--quiet", "--target=/workspace/.validation-deps", "PyYAML==6.0.2"]
+  - id: verify-public-contract
+    name: python:3.12-bookworm@sha256:058149828b8d4a90425f5ae6d255ee1fcfe73bf7d749635d824f4e033460d83c
+    entrypoint: sh
+    args: ["scripts/verify-public-contract.sh"]
+    env:
+      - SOURCE_SHA=$COMMIT_SHA
+      - EVIDENCE_OUTPUT=/workspace/public-contract-evidence.json
+      - PYTHONPATH=/workspace/.validation-deps
+timeout: 300s
+options:
+  logging: CLOUD_LOGGING_ONLY
+  substitutionOption: ALLOW_LOOSE

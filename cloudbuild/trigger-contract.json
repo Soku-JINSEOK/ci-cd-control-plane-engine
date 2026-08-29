@@ -1,0 +1,7 @@
+{
+  "schema_version": "public-validation-trigger-contract-v1",
+  "region": "asia-northeast1",
+  "pull_request_comment_control": "COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY",
+  "service_account_class": "validation-only",
+  "delivery_authority": "none"
+}
