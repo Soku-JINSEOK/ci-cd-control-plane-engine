@@ -4,13 +4,13 @@ import copy
 import hashlib
 import importlib.util
 import json
-import platform
 import subprocess
 import sys
 import tempfile
 import time
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("local_reference", ROOT / "scripts/local_reference.py")
@@ -21,9 +21,7 @@ SPEC.loader.exec_module(lr)
 
 
 def native_platform():
-    os_name = platform.system().casefold()
-    machine = platform.machine().casefold()
-    return {"os": os_name, "architecture": "arm64" if machine in {"arm64", "aarch64"} else "amd64", "shell": "none"}
+    return {"os": "darwin", "architecture": "arm64", "shell": "none"}
 
 
 class LocalReferenceTests(unittest.TestCase):
@@ -59,7 +57,10 @@ class LocalReferenceTests(unittest.TestCase):
             reviewed = lr.canonical_bytes({"pipeline_template_id": selected["pipeline_template_id"], "profile_id": selected["profile_id"], "commands": selected["commands"], "artifacts": selected["artifacts"]})
             selected["contract_sha256"] = hashlib.sha256(reviewed).hexdigest()
             expected = lr.canonical_sha256(selected)
-        return lr.execute(selected, adapter or self.adapter, self.root, reviewed_contract=reviewed, expected_requirements_sha256=expected, started_at="2026-08-28T00:00:00Z", ended_at="2026-08-28T00:00:01Z", **kwargs)
+        with mock.patch.object(lr.platform, "system", return_value="Darwin"), mock.patch.object(
+            lr.platform, "machine", return_value="arm64"
+        ):
+            return lr.execute(selected, adapter or self.adapter, self.root, reviewed_contract=reviewed, expected_requirements_sha256=expected, started_at="2026-08-28T00:00:00Z", ended_at="2026-08-28T00:00:01Z", **kwargs)
 
     def test_positive_and_deterministic_evidence(self):
         first = self.run_it()
