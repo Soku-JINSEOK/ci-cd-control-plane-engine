@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Soku-JINSEOK/ci-cd-control-plane-engine/execution/schema/public-contract-evidence-v1.schema.json",
+  "title": "Public contract semantic evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_sha", "contract_version", "profile_version", "adapter", "commands", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "public-contract-evidence-v1"},
+    "source_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "contract_version": {"const": "public-contract-v1"},
+    "profile_version": {"const": "public-validation-v1"},
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "ref", "sha256"],
+      "properties": {
+        "id": {"const": "public-contract-command-v1"},
+        "ref": {"const": "scripts/verify-public-contract.sh"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "commands": {
+      "type": "array",
+      "prefixItems": [
+        {"$ref": "#/$defs/publication"},
+        {"$ref": "#/$defs/registry"},
+        {"$ref": "#/$defs/tests"}
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "sha256"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]+$"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "conclusion"],
+      "properties": {
+        "id": {"const": "publication-surface"},
+        "conclusion": {"const": "success"}
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "conclusion"],
+      "properties": {
+        "id": {"const": "registry-resolution"},
+        "conclusion": {"const": "success"}
+      }
+    },
+    "tests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "conclusion"],
+      "properties": {
+        "id": {"const": "python-contract-tests"},
+        "conclusion": {"const": "success"}
+      }
+    }
+  }
+}
