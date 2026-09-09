@@ -1,0 +1,112 @@
+schema_version: 1
+contract: public-engine-export-v1
+history:
+  mode: new-repository
+  commit_date: "2026-01-01T00:00:00+0000"
+  commit_message: "🔒️ security(publication): reproduce public engine contract"
+files:
+  - source: .github/workflows/public-contract.yml
+    destination: .github/workflows/public-contract.yml
+    executable: false
+  - source: .gitignore
+    destination: .gitignore
+    executable: false
+  - source: LICENSE
+    destination: LICENSE
+    executable: false
+  - source: README.md
+    destination: README.md
+    executable: false
+  - source: THIRD_PARTY_NOTICES.md
+    destination: THIRD_PARTY_NOTICES.md
+    executable: false
+  - source: cloudbuild/trigger-contract.json
+    destination: cloudbuild/trigger-contract.json
+    executable: false
+  - source: cloudbuild/validation.yaml
+    destination: cloudbuild/validation.yaml
+    executable: false
+  - source: docs/execution-contracts.md
+    destination: docs/execution-contracts.md
+    executable: false
+  - source: execution/adapters/gcp-cloud-build-v1.synthetic.json
+    destination: execution/adapters/gcp-cloud-build-v1.synthetic.json
+    executable: false
+  - source: execution/adapters/jenkins-hybrid-v1.synthetic.json
+    destination: execution/adapters/jenkins-hybrid-v1.synthetic.json
+    executable: false
+  - source: execution/adapters/local-reference-v1.json
+    destination: execution/adapters/local-reference-v1.json
+    executable: false
+  - source: execution/fixtures/portable-local-success.json
+    destination: execution/fixtures/portable-local-success.json
+    executable: false
+  - source: execution/fixtures/portable-reviewed-contract.json
+    destination: execution/fixtures/portable-reviewed-contract.json
+    executable: false
+  - source: execution/schema/adapter-descriptor-v1.schema.json
+    destination: execution/schema/adapter-descriptor-v1.schema.json
+    executable: false
+  - source: execution/schema/execution-requirements-v1.schema.json
+    destination: execution/schema/execution-requirements-v1.schema.json
+    executable: false
+  - source: execution/schema/normalized-evidence-v1.schema.json
+    destination: execution/schema/normalized-evidence-v1.schema.json
+    executable: false
+  - source: execution/schema/public-contract-evidence-v1.schema.json
+    destination: execution/schema/public-contract-evidence-v1.schema.json
+    executable: false
+  - source: pipelines/hygiene-v1.yaml
+    destination: pipelines/hygiene-v1.yaml
+    executable: false
+  - source: publication/export-manifest.yaml
+    destination: publication/export-manifest.yaml
+    executable: false
+  - source: registry/projects.yaml
+    destination: registry/projects.yaml
+    executable: false
+  - source: registry/schema/pipeline.schema.json
+    destination: registry/schema/pipeline.schema.json
+    executable: false
+  - source: registry/schema/projects.schema.json
+    destination: registry/schema/projects.schema.json
+    executable: false
+  - source: scripts/local_reference.py
+    destination: scripts/local_reference.py
+    executable: false
+  - source: scripts/public_contract_evidence.py
+    destination: scripts/public_contract_evidence.py
+    executable: true
+  - source: scripts/publication-check.py
+    destination: scripts/publication-check.py
+    executable: true
+  - source: scripts/publication-export.py
+    destination: scripts/publication-export.py
+    executable: true
+  - source: scripts/publication_worktree_check.py
+    destination: scripts/publication_worktree_check.py
+    executable: true
+  - source: scripts/resolve-registry.py
+    destination: scripts/resolve-registry.py
+    executable: true
+  - source: scripts/verify-public-contract.sh
+    destination: scripts/verify-public-contract.sh
+    executable: true
+  - source: tests/test_cloudbuild_validation.py
+    destination: tests/test_cloudbuild_validation.py
+    executable: false
+  - source: tests/test_contract_publication.py
+    destination: tests/test_contract_publication.py
+    executable: false
+  - source: tests/test_local_reference.py
+    destination: tests/test_local_reference.py
+    executable: false
+  - source: tests/test_public_contract_evidence.py
+    destination: tests/test_public_contract_evidence.py
+    executable: false
+  - source: tests/test_publication_export_generation.py
+    destination: tests/test_publication_export_generation.py
+    executable: false
+  - source: tests/test_publication_yaml.py
+    destination: tests/test_publication_yaml.py
+    executable: false

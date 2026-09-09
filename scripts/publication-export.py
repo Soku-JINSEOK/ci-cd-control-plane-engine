@@ -30,6 +30,31 @@ class ExportError(ValueError):
     """Raised when the public export contract cannot be satisfied."""
 
 
+class _UniqueKeyLoader(yaml.SafeLoader):
+    """Reject ambiguous mappings without exposing their keys or values."""
+
+    def flatten_mapping(self, node):
+        if sum(key.tag == "tag:yaml.org,2002:merge" for key, _ in node.value) > 1:
+            raise yaml.YAMLError("duplicate YAML mapping key")
+        super().flatten_mapping(node)
+
+    def construct_mapping(self, node, deep=False):
+        if not isinstance(node, yaml.MappingNode):
+            raise yaml.YAMLError("invalid YAML mapping")
+        self.flatten_mapping(node)
+        mapping = {}
+        for key_node, value_node in node.value:
+            key = self.construct_object(key_node, deep=deep)
+            try:
+                duplicate = key in mapping
+            except TypeError:
+                raise yaml.YAMLError("invalid YAML mapping key") from None
+            if duplicate:
+                raise yaml.YAMLError("duplicate YAML mapping key")
+            mapping[key] = self.construct_object(value_node, deep=deep)
+        return mapping
+
+
 @dataclass(frozen=True)
 class ExportResult:
     """Redacted deterministic export evidence."""
@@ -67,9 +92,9 @@ def _relative_path(value: Any, field: str) -> str:
 def load_manifest(path: Path = DEFAULT_MANIFEST) -> dict[str, Any]:
     """Load the strict, explicit export allowlist."""
     try:
-        value = yaml.safe_load(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeError, yaml.YAMLError) as error:
-        raise ExportError("export manifest could not be read") from error
+        value = yaml.load(path.read_text(encoding="utf-8"), Loader=_UniqueKeyLoader)
+    except (OSError, UnicodeError, yaml.YAMLError):
+        raise ExportError("export manifest could not be read") from None
     if not isinstance(value, dict) or set(value) != {
         "schema_version",
         "contract",
