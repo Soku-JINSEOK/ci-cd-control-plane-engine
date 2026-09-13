@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Control-plane engine sequence",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1000,
+      650
+    ],
+    "column_fit": "spread"
+  },
+  "participants": [
+    {
+      "id": "contracts",
+      "type": "external",
+      "label": "Public contracts"
+    },
+    {
+      "id": "adapter",
+      "type": "backend",
+      "label": "Adapter layer"
+    },
+    {
+      "id": "runner",
+      "type": "backend",
+      "label": "Local runner"
+    },
+    {
+      "id": "evidence",
+      "type": "database",
+      "label": "Normalized evidence"
+    },
+    {
+      "id": "checker",
+      "type": "security",
+      "label": "Publication checker"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "contracts",
+      "to": "adapter",
+      "y": 160,
+      "label": "selects",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "adapter",
+      "to": "runner",
+      "y": 205,
+      "label": "executes",
+      "variant": "default"
+    },
+    {
+      "id": "m3",
+      "from": "runner",
+      "to": "evidence",
+      "y": 260,
+      "label": "normalizes",
+      "variant": "default"
+    },
+    {
+      "id": "m4",
+      "from": "evidence",
+      "to": "checker",
+      "y": 315,
+      "label": "checks",
+      "variant": "default"
+    },
+    {
+      "id": "m5",
+      "from": "checker",
+      "to": "evidence",
+      "y": 370,
+      "label": "returns",
+      "variant": "default"
+    },
+    {
+      "id": "m6",
+      "from": "runner",
+      "to": "adapter",
+      "y": 425,
+      "label": "returns",
+      "variant": "default"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Flow basis",
+      "items": [
+        "Remote-only reference map",
+        "Based on public README; local source evidence pending"
+      ]
+    }
+  ]
+}
