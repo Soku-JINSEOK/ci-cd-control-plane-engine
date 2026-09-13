@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Control-plane engine workflow",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1200,
+      600
+    ]
+  },
+  "lanes": [
+    {
+      "id": "client",
+      "label": "Client"
+    },
+    {
+      "id": "service",
+      "label": "Service"
+    },
+    {
+      "id": "data",
+      "label": "Data"
+    }
+  ],
+  "mainPath": [
+    "n1",
+    "n2",
+    "n3",
+    "n4",
+    "n5",
+    "n6"
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "lane": "client",
+      "col": 0,
+      "type": "external",
+      "label": "Public contracts",
+      "width": 150
+    },
+    {
+      "id": "n2",
+      "lane": "service",
+      "col": 1,
+      "type": "backend",
+      "label": "Adapter layer",
+      "width": 150
+    },
+    {
+      "id": "n3",
+      "lane": "service",
+      "col": 2,
+      "type": "backend",
+      "label": "Local runner",
+      "width": 150
+    },
+    {
+      "id": "n4",
+      "lane": "data",
+      "col": 3,
+      "type": "database",
+      "label": "Normalized evidence",
+      "width": 150
+    },
+    {
+      "id": "n5",
+      "lane": "data",
+      "col": 4,
+      "type": "security",
+      "label": "Publication checker",
+      "width": 150
+    },
+    {
+      "id": "n6",
+      "lane": "data",
+      "col": 5,
+      "type": "external",
+      "label": "Public proof",
+      "width": 150
+    }
+  ],
+  "edges": [
+    {
+      "id": "n1-n2",
+      "from": "n1",
+      "to": "n2",
+      "role": "main",
+      "label": "selects"
+    },
+    {
+      "id": "n2-n3",
+      "from": "n2",
+      "to": "n3",
+      "role": "main",
+      "label": "executes"
+    },
+    {
+      "id": "n3-n4",
+      "from": "n3",
+      "to": "n4",
+      "role": "main",
+      "label": "normalizes"
+    },
+    {
+      "id": "n4-n5",
+      "from": "n4",
+      "to": "n5",
+      "role": "main",
+      "label": "checks"
+    },
+    {
+      "id": "n5-n6",
+      "from": "n5",
+      "to": "n6",
+      "role": "main",
+      "label": "publishes"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Flow basis",
+      "items": [
+        "Remote-only reference map",
+        "Based on public README; local source evidence pending"
+      ]
+    }
+  ]
+}

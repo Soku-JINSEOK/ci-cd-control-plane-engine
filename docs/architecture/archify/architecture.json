@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Control-plane engine",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Soku-JINSEOK/ci-cd-control-plane-engine",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "65470c68363d7469552721ca22d1992382f706e7"
+    },
+    "viewBox": [
+      1140,
+      520
+    ]
+  },
+  "components": [
+    {
+      "id": "contracts",
+      "type": "external",
+      "label": "Public contracts",
+      "sublabel": "registry + pipeline",
+      "pos": [
+        40,
+        220
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "registry/projects.yaml"
+        }
+      ]
+    },
+    {
+      "id": "adapter",
+      "type": "backend",
+      "label": "Adapter layer",
+      "sublabel": "provider-neutral",
+      "pos": [
+        220,
+        220
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "execution/adapters/local-reference-v1.json"
+        }
+      ]
+    },
+    {
+      "id": "runner",
+      "type": "backend",
+      "label": "Local runner",
+      "sublabel": "reference execution",
+      "pos": [
+        400,
+        220
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "scripts/local_reference.py"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "type": "database",
+      "label": "Normalized evidence",
+      "sublabel": "deterministic records",
+      "pos": [
+        580,
+        220
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "execution/schema/normalized-evidence-v1.schema.json"
+        }
+      ]
+    },
+    {
+      "id": "checker",
+      "type": "security",
+      "label": "Publication checker",
+      "sublabel": "contract gates",
+      "pos": [
+        760,
+        220
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "scripts/publication-check.py"
+        }
+      ]
+    },
+    {
+      "id": "proof",
+      "type": "external",
+      "label": "Public proof",
+      "sublabel": "reviewable artifact",
+      "pos": [
+        940,
+        220
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "scripts/publication-export.py"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "contracts-adapter",
+      "from": "contracts",
+      "to": "adapter",
+      "label": "selects",
+      "labelDy": 60,
+      "variant": "emphasis"
+    },
+    {
+      "id": "adapter-runner",
+      "from": "adapter",
+      "to": "runner",
+      "label": "executes",
+      "labelDy": 60,
+      "variant": "default"
+    },
+    {
+      "id": "runner-evidence",
+      "from": "runner",
+      "to": "evidence",
+      "label": "normalizes",
+      "labelDy": 60,
+      "variant": "default"
+    },
+    {
+      "id": "evidence-checker",
+      "from": "evidence",
+      "to": "checker",
+      "label": "checks",
+      "labelDy": 60,
+      "variant": "default"
+    },
+    {
+      "id": "checker-proof",
+      "from": "checker",
+      "to": "proof",
+      "label": "publishes",
+      "labelDy": 60,
+      "variant": "default"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Flow basis",
+      "items": [
+        "Remote-only reference map",
+        "Based on public README; local source evidence pending"
+      ]
+    }
+  ]
+}
